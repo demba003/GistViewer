@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Gists MVP</string>
+    <string name="public_repos">Public repos:</string>
+    <string name="followers">Followers:</string>
+</resources>
