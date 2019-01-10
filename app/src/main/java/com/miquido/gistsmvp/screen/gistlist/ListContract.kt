@@ -11,7 +11,6 @@ interface ListContract {
 
     interface ListPresenter {
         fun downloadGists()
-        fun onRefresh()
         fun onCardClick(gist: Gist)
         fun dispose()
     }

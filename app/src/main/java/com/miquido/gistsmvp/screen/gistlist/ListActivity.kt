@@ -7,7 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.miquido.gistsmvp.R
 import com.miquido.gistsmvp.models.Gist
+import com.miquido.gistsmvp.schedulers.DeviceSchedulerProvider
 import com.miquido.gistsmvp.screen.gistdetails.DetailsActivity
+import com.miquido.gistsmvp.usecase.GetGistsUseCase
 import kotlinx.android.synthetic.main.activity_list.*
 
 class ListActivity : AppCompatActivity(), ListContract.ListView {
@@ -17,9 +19,9 @@ class ListActivity : AppCompatActivity(), ListContract.ListView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
 
-        presenter = ListPresenter(this)
+        presenter = ListPresenter(this, GetGistsUseCase(), DeviceSchedulerProvider())
         presenter.downloadGists()
-        swipeRefreshLayout.setOnRefreshListener(presenter::onRefresh)
+        swipeRefreshLayout.setOnRefreshListener(presenter::downloadGists)
     }
 
     override fun displayDownloadedGists(gists: List<Gist>) {

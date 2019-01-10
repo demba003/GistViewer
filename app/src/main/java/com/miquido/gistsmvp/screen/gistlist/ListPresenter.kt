@@ -1,21 +1,23 @@
 package com.miquido.gistsmvp.screen.gistlist
 
 import com.miquido.gistsmvp.models.Gist
+import com.miquido.gistsmvp.schedulers.SchedulerProvider
 import com.miquido.gistsmvp.usecase.GetGistsUseCase
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
-import io.reactivex.schedulers.Schedulers
 
-class ListPresenter(private val view: ListContract.ListView) : ListContract.ListPresenter {
-    private val getGistsUseCase = GetGistsUseCase()
+class ListPresenter(
+    private val view: ListContract.ListView,
+    private val getGistsUseCase: GetGistsUseCase,
+    private val schedulers: SchedulerProvider
+) : ListContract.ListPresenter {
     private val disposables = CompositeDisposable()
 
     override fun downloadGists() {
         disposables.add(
             getGistsUseCase.get()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(schedulers.io())
+                .observeOn(schedulers.main())
                 .subscribeBy(
                     onSuccess = {
                         view.displayDownloadedGists(it)
@@ -26,10 +28,6 @@ class ListPresenter(private val view: ListContract.ListView) : ListContract.List
                     }
                 )
         )
-    }
-
-    override fun onRefresh() {
-        downloadGists()
     }
 
     override fun onCardClick(gist: Gist) {

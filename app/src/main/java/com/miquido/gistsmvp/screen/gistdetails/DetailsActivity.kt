@@ -10,6 +10,9 @@ import com.miquido.gistsmvp.R
 import com.miquido.gistsmvp.models.FileGist
 import com.miquido.gistsmvp.models.Gist
 import com.miquido.gistsmvp.models.User
+import com.miquido.gistsmvp.schedulers.DeviceSchedulerProvider
+import com.miquido.gistsmvp.usecase.GetGistUseCase
+import com.miquido.gistsmvp.usecase.GetUserUseCase
 import kotlinx.android.synthetic.main.activity_gist.*
 
 class DetailsActivity : AppCompatActivity(), DetailsContract.DetailsView {
@@ -18,7 +21,8 @@ class DetailsActivity : AppCompatActivity(), DetailsContract.DetailsView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gist)
-        presenter = DetailsPresenter(this, intent.extras["gist"] as Gist)
+        val gist = intent.extras["gist"] as Gist
+        presenter = DetailsPresenter(this, gist, GetUserUseCase(), GetGistUseCase(), DeviceSchedulerProvider())
         headerCard.setOnClickListener { presenter.onHeaderClick() }
     }
 
