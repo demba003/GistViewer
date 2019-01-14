@@ -3,6 +3,7 @@ package com.miquido.gistsmvp.screen.gistdetails
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
@@ -26,6 +27,7 @@ class DetailsActivity : AppCompatActivity(), DetailsContract.DetailsView, KoinCo
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gist)
+
         val gist = intent.extras["gist"] as Gist
         presenter = DetailsPresenter(this, gist, getUserUseCase, getGistUseCase, schedulerProvider)
         presenter.init()
@@ -35,7 +37,7 @@ class DetailsActivity : AppCompatActivity(), DetailsContract.DetailsView, KoinCo
     override fun initViews(gist: Gist) {
         username.text = gist.owner.login
         Glide.with(this).load(gist.owner.avatar_url).into(image)
-        contentText.text = gist.description
+        contentDescription.text = gist.description
     }
 
     override fun updateUserData(user: User) {
@@ -45,6 +47,7 @@ class DetailsActivity : AppCompatActivity(), DetailsContract.DetailsView, KoinCo
 
     override fun showGistContent(gist: FileGist) {
         val file = gist.files.entries.iterator().next()
+        if (gist.description.isEmpty()) contentDescription.visibility = View.GONE
         contentText.text = file.value.content
         fileName.text = file.key
     }
@@ -54,9 +57,9 @@ class DetailsActivity : AppCompatActivity(), DetailsContract.DetailsView, KoinCo
     }
 
     override fun goToUserProfile(user: User) {
-        val i = Intent(Intent.ACTION_VIEW)
-        i.data = Uri.parse(user.html_url)
-        startActivity(i)
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(user.html_url)
+        startActivity(intent)
     }
 
     override fun onDestroy() {
