@@ -19,5 +19,6 @@ interface DetailsContract {
         fun onHeaderClick()
         fun downloadGistContent()
         fun dispose()
+        fun init()
     }
 }

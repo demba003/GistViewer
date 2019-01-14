@@ -23,6 +23,7 @@ class DetailsActivity : AppCompatActivity(), DetailsContract.DetailsView {
         setContentView(R.layout.activity_gist)
         val gist = intent.extras["gist"] as Gist
         presenter = DetailsPresenter(this, gist, GetUserUseCase(), GetGistUseCase(), DeviceSchedulerProvider())
+        presenter.init()
         headerCard.setOnClickListener { presenter.onHeaderClick() }
     }
 

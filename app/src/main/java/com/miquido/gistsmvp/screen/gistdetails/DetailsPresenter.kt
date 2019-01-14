@@ -6,10 +6,8 @@ import com.miquido.gistsmvp.models.User
 import com.miquido.gistsmvp.schedulers.SchedulerProvider
 import com.miquido.gistsmvp.usecase.GetGistUseCase
 import com.miquido.gistsmvp.usecase.GetUserUseCase
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
-import io.reactivex.schedulers.Schedulers
 
 class DetailsPresenter(
     private val view: DetailsContract.DetailsView,
@@ -22,7 +20,7 @@ class DetailsPresenter(
     private lateinit var user: User
     private lateinit var fileGist: FileGist
 
-    init {
+    override fun init() {
         view.initViews(gist)
         downloadUser()
         downloadGistContent()
