@@ -10,19 +10,24 @@ import com.miquido.gistsmvp.R
 import com.miquido.gistsmvp.models.FileGist
 import com.miquido.gistsmvp.models.Gist
 import com.miquido.gistsmvp.models.User
-import com.miquido.gistsmvp.schedulers.DeviceSchedulerProvider
+import com.miquido.gistsmvp.schedulers.SchedulerProvider
 import com.miquido.gistsmvp.usecase.GetGistUseCase
 import com.miquido.gistsmvp.usecase.GetUserUseCase
 import kotlinx.android.synthetic.main.activity_gist.*
+import org.koin.standalone.KoinComponent
+import org.koin.standalone.inject
 
-class DetailsActivity : AppCompatActivity(), DetailsContract.DetailsView {
+class DetailsActivity : AppCompatActivity(), DetailsContract.DetailsView, KoinComponent {
+    private val getUserUseCase: GetUserUseCase by inject()
+    private val getGistUseCase: GetGistUseCase by inject()
+    private val schedulerProvider: SchedulerProvider by inject()
     private lateinit var presenter: DetailsContract.DetailsPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gist)
         val gist = intent.extras["gist"] as Gist
-        presenter = DetailsPresenter(this, gist, GetUserUseCase(), GetGistUseCase(), DeviceSchedulerProvider())
+        presenter = DetailsPresenter(this, gist, getUserUseCase, getGistUseCase, schedulerProvider)
         presenter.init()
         headerCard.setOnClickListener { presenter.onHeaderClick() }
     }

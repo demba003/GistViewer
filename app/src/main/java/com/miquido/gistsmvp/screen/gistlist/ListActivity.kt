@@ -7,19 +7,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.miquido.gistsmvp.R
 import com.miquido.gistsmvp.models.Gist
-import com.miquido.gistsmvp.schedulers.DeviceSchedulerProvider
+import com.miquido.gistsmvp.schedulers.SchedulerProvider
 import com.miquido.gistsmvp.screen.gistdetails.DetailsActivity
 import com.miquido.gistsmvp.usecase.GetGistsUseCase
 import kotlinx.android.synthetic.main.activity_list.*
+import org.koin.standalone.KoinComponent
+import org.koin.standalone.inject
 
-class ListActivity : AppCompatActivity(), ListContract.ListView {
+class ListActivity : AppCompatActivity(), ListContract.ListView, KoinComponent {
+    private val getGistsUseCase: GetGistsUseCase by inject()
+    private val schedulerProvider: SchedulerProvider by inject()
     private lateinit var presenter: ListContract.ListPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
 
-        presenter = ListPresenter(this, GetGistsUseCase(), DeviceSchedulerProvider())
+        presenter = ListPresenter(this, getGistsUseCase, schedulerProvider)
         presenter.downloadGists()
         swipeRefreshLayout.setOnRefreshListener(presenter::downloadGists)
     }
