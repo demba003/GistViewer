@@ -6,37 +6,38 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.miquido.gistsmvp.R
-import com.miquido.gistsmvp.models.FileGist
 import com.miquido.gistsmvp.models.Gist
 import com.miquido.gistsmvp.models.User
-import com.miquido.gistsmvp.schedulers.SchedulerProvider
-import com.miquido.gistsmvp.usecase.GetGistUseCase
-import com.miquido.gistsmvp.usecase.GetUserUseCase
+import com.miquido.gistsmvp.screen.gistlist.ListActivity
 import kotlinx.android.synthetic.main.activity_gist.*
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
 
-class DetailsActivity : AppCompatActivity(), DetailsContract.DetailsView, KoinComponent {
-    private val getUserUseCase: GetUserUseCase by inject()
-    private val getGistUseCase: GetGistUseCase by inject()
-    private val schedulerProvider: SchedulerProvider by inject()
-    private lateinit var presenter: DetailsContract.DetailsPresenter
+const val GIST = "gist"
+
+class DetailsActivity : AppCompatActivity(), DetailsContract.View, KoinComponent {
+    private val presenter: DetailsContract.Presenter by inject()
+    private val glide: RequestManager by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gist)
 
-        val gist = intent.extras["gist"] as Gist
-        presenter = DetailsPresenter(this, gist, getUserUseCase, getGistUseCase, schedulerProvider)
-        presenter.init()
-        headerCard.setOnClickListener { presenter.onHeaderClick() }
+        val gist: Gist? = intent?.extras?.get(GIST) as Gist?
+
+        gist?.let {
+            presenter.init(this, gist)
+            presenter.downloadUser()
+            presenter.downloadGistContent()
+            headerCard.setOnClickListener { presenter.onHeaderClick() }
+        } ?: goBackToList()
     }
 
     override fun initViews(gist: Gist) {
         username.text = gist.owner.login
-        Glide.with(this).load(gist.owner.avatar_url).into(image)
+        glide.load(gist.owner.avatar_url).into(image)
         contentDescription.text = gist.description
     }
 
@@ -45,7 +46,7 @@ class DetailsActivity : AppCompatActivity(), DetailsContract.DetailsView, KoinCo
         repos.text = user.public_repos.toString()
     }
 
-    override fun showGistContent(gist: FileGist) {
+    override fun showGistContent(gist: Gist) {
         val file = gist.files.entries.iterator().next()
         if (gist.description.isEmpty()) contentDescription.visibility = View.GONE
         contentText.text = file.value.content
@@ -57,9 +58,16 @@ class DetailsActivity : AppCompatActivity(), DetailsContract.DetailsView, KoinCo
     }
 
     override fun goToUserProfile(user: User) {
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.data = Uri.parse(user.html_url)
-        startActivity(intent)
+        Intent(Intent.ACTION_VIEW).apply {
+            data = Uri.parse(user.html_url)
+            startActivity(this)
+        }
+    }
+
+    private fun goBackToList() {
+        Intent(this, ListActivity::class.java).apply {
+            startActivity(this)
+        }
     }
 
     override fun onDestroy() {

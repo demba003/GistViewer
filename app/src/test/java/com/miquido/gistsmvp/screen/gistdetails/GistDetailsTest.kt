@@ -1,6 +1,5 @@
 package com.miquido.gistsmvp.screen.gistdetails
 
-import com.miquido.gistsmvp.models.FileGist
 import com.miquido.gistsmvp.models.Gist
 import com.miquido.gistsmvp.models.Owner
 import com.miquido.gistsmvp.models.User
@@ -19,17 +18,17 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class GistDetailsTest {
     private val sampleUser: User = mock ()
-    private val sampleFileGist: FileGist = mock()
-    private val sampleGist = Gist("id", Owner("login", "url"), "description")
-    private val view: DetailsContract.DetailsView = mock()
+    private val sampleGist = Gist("id", Owner("login", "url"), "description", mapOf())
+    private val view: DetailsContract.View = mock()
     private var getGistUseCase: GetGistUseCase = mock()
     private var getUserUseCase: GetUserUseCase = mock()
 
     @Test
     fun displayDownloadedUser_whenDownloadedProperly() {
         // given
-        whenever(getUserUseCase.get(any())).thenReturn(Single.just(sampleUser))
-        val presenter = DetailsPresenter(view, sampleGist, getUserUseCase, getGistUseCase, TestSchedulerProvider())
+        whenever(getUserUseCase.getUser(any())).thenReturn(Single.just(sampleUser))
+        val presenter = DetailsPresenter(getUserUseCase, getGistUseCase, TestSchedulerProvider())
+        presenter.init(view, sampleGist)
 
         // when
         presenter.downloadUser()
@@ -41,8 +40,9 @@ class GistDetailsTest {
     @Test
     fun displayError_whenDownloadingUserError() {
         //given
-        whenever(getUserUseCase.get(any())).thenReturn(Single.error(Throwable("Expected error")))
-        val presenter = DetailsPresenter(view, sampleGist, getUserUseCase, getGistUseCase, TestSchedulerProvider())
+        whenever(getUserUseCase.getUser(any())).thenReturn(Single.error(Throwable("Expected error")))
+        val presenter = DetailsPresenter(getUserUseCase, getGistUseCase, TestSchedulerProvider())
+        presenter.init(view, sampleGist)
 
         // when
         presenter.downloadUser()
@@ -54,21 +54,23 @@ class GistDetailsTest {
     @Test
     fun displayDownloadedGist_whenDownloadedProperly() {
         // given
-        whenever(getGistUseCase.get(any())).thenReturn(Single.just(sampleFileGist))
-        val presenter = DetailsPresenter(view, sampleGist, getUserUseCase, getGistUseCase, TestSchedulerProvider())
+        whenever(getGistUseCase.getGist(any())).thenReturn(Single.just(sampleGist))
+        val presenter = DetailsPresenter(getUserUseCase, getGistUseCase, TestSchedulerProvider())
+        presenter.init(view, sampleGist)
 
         // when
         presenter.downloadGistContent()
 
         // then
-        verify(view).showGistContent(sampleFileGist)
+        verify(view).showGistContent(sampleGist)
     }
 
     @Test
     fun displayError_whenDownloadingGistError() {
         // given
-        whenever(getGistUseCase.get(any())).thenReturn(Single.error(Throwable("Expected error")))
-        val presenter = DetailsPresenter(view, sampleGist, getUserUseCase, getGistUseCase, TestSchedulerProvider())
+        whenever(getGistUseCase.getGist(any())).thenReturn(Single.error(Throwable("Expected error")))
+        val presenter = DetailsPresenter(getUserUseCase, getGistUseCase, TestSchedulerProvider())
+        presenter.init(view, sampleGist)
 
         // when
         presenter.downloadGistContent()
@@ -80,8 +82,9 @@ class GistDetailsTest {
     @Test
     fun goToUserProfile_whenHeaderClicked() {
         // given
-        whenever(getUserUseCase.get(any())).thenReturn(Single.just(sampleUser))
-        val presenter = DetailsPresenter(view, sampleGist, getUserUseCase, getGistUseCase, TestSchedulerProvider())
+        whenever(getUserUseCase.getUser(any())).thenReturn(Single.just(sampleUser))
+        val presenter = DetailsPresenter(getUserUseCase, getGistUseCase, TestSchedulerProvider())
+        presenter.init(view, sampleGist)
         presenter.downloadUser()
 
         // when

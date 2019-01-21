@@ -1,6 +1,6 @@
 package com.miquido.gistsmvp.screen.gistdetails
 
-import com.miquido.gistsmvp.models.FileGist
+import android.annotation.SuppressLint
 import com.miquido.gistsmvp.models.Gist
 import com.miquido.gistsmvp.models.User
 import com.miquido.gistsmvp.schedulers.SchedulerProvider
@@ -10,60 +10,60 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 
 class DetailsPresenter(
-    private val view: DetailsContract.DetailsView,
-    private val gist: Gist,
     private val getUserUseCase: GetUserUseCase,
     private val getGistUseCase: GetGistUseCase,
     private val schedulers: SchedulerProvider
-) : DetailsContract.DetailsPresenter {
+) : DetailsContract.Presenter {
     private val disposables = CompositeDisposable()
     private lateinit var user: User
-    private lateinit var fileGist: FileGist
+    private lateinit var fileGist: Gist
+    private lateinit var view: DetailsContract.View
+    private lateinit var gist: Gist
 
-    override fun init() {
+    override fun init(view: DetailsContract.View, gist: Gist) {
+        this.view = view
+        this.gist = gist
         view.initViews(gist)
-        downloadUser()
-        downloadGistContent()
     }
 
     override fun onHeaderClick() {
         view.goToUserProfile(user)
     }
 
+    @SuppressLint("CheckResult")
     override fun downloadUser() {
-        disposables.add(
-            getUserUseCase.get(gist.owner.login)
-                .subscribeOn(schedulers.io())
-                .observeOn(schedulers.main())
-                .subscribeBy(
-                    onSuccess = {
-                        user = it
-                        view.updateUserData(it)
-                    },
-                    onError = {
-                        it.printStackTrace()
-                        view.showDownloadingError()
-                    }
-                )
-        )
+        getUserUseCase.getUser(gist.owner.login)
+            .subscribeOn(schedulers.io())
+            .observeOn(schedulers.main())
+            .doOnSubscribe { disposables.add(it) }
+            .subscribeBy(
+                onSuccess = {
+                    user = it
+                    view.updateUserData(it)
+                },
+                onError = {
+                    it.printStackTrace()
+                    view.showDownloadingError()
+                }
+            )
     }
 
+    @SuppressLint("CheckResult")
     override fun downloadGistContent() {
-        disposables.add(
-            getGistUseCase.get(gist.id)
-                .subscribeOn(schedulers.io())
-                .observeOn(schedulers.main())
-                .subscribeBy(
-                    onSuccess = {
-                        fileGist = it
-                        view.showGistContent(it)
-                    },
-                    onError = {
-                        it.printStackTrace()
-                        view.showDownloadingError()
-                    }
-                )
-        )
+        getGistUseCase.getGist(gist.id)
+            .subscribeOn(schedulers.io())
+            .observeOn(schedulers.main())
+            .doOnSubscribe { disposables.add(it) }
+            .subscribeBy(
+                onSuccess = {
+                    fileGist = it
+                    view.showGistContent(it)
+                },
+                onError = {
+                    it.printStackTrace()
+                    view.showDownloadingError()
+                }
+            )
     }
 
     override fun dispose() {

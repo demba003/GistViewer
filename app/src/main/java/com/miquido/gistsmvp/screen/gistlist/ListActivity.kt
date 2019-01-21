@@ -7,31 +7,33 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.miquido.gistsmvp.R
 import com.miquido.gistsmvp.models.Gist
-import com.miquido.gistsmvp.schedulers.SchedulerProvider
 import com.miquido.gistsmvp.screen.gistdetails.DetailsActivity
-import com.miquido.gistsmvp.usecase.GetGistsUseCase
+import com.miquido.gistsmvp.screen.gistdetails.GIST
 import kotlinx.android.synthetic.main.activity_list.*
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
 
-class ListActivity : AppCompatActivity(), ListContract.ListView, KoinComponent {
-    private val getGistsUseCase: GetGistsUseCase by inject()
-    private val schedulerProvider: SchedulerProvider by inject()
-    private lateinit var presenter: ListContract.ListPresenter
+class ListActivity : AppCompatActivity(), ListContract.View, KoinComponent {
+    private val presenter: ListContract.Presenter by inject()
+    private lateinit var adapter: GistAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
-
-        presenter = ListPresenter(this, getGistsUseCase, schedulerProvider)
-        presenter.downloadGists()
+        initAdapter()
         swipeRefreshLayout.setOnRefreshListener(presenter::downloadGists)
+
+        presenter.init(this)
+        presenter.downloadGists()
     }
 
-    override fun displayDownloadedGists(gists: List<Gist>) {
-        val adapter = GistAdapter(this, gists, presenter::onCardClick)
+    private fun initAdapter() {
+        adapter = GistAdapter(presenter.getGists(), presenter::onCardClick)
         gistsRecycler.layoutManager = LinearLayoutManager(this)
         gistsRecycler.adapter = adapter
+    }
+
+    override fun displayDownloadedGists() {
         adapter.notifyDataSetChanged()
         hideRefreshingIndicator()
     }
@@ -46,9 +48,10 @@ class ListActivity : AppCompatActivity(), ListContract.ListView, KoinComponent {
     }
 
     override fun openGist(gist: Gist) {
-        val intent = Intent(this, DetailsActivity::class.java)
-        intent.putExtra("gist", gist)
-        startActivity(intent)
+        Intent(this, DetailsActivity::class.java).apply {
+            putExtra(GIST, gist)
+            startActivity(this)
+        }
     }
 
     override fun onDestroy() {

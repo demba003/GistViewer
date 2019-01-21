@@ -1,21 +1,22 @@
 package com.miquido.gistsmvp.screen.gistlist
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.miquido.gistsmvp.R
 import com.miquido.gistsmvp.models.Gist
+import org.koin.standalone.KoinComponent
+import org.koin.standalone.inject
 
 class GistAdapter(
-    private val context: Context,
     private val gists: List<Gist>,
     private val onClickAction: (Gist) -> Unit
-) : RecyclerView.Adapter<GistViewHolder>() {
+) : RecyclerView.Adapter<GistViewHolder>(), KoinComponent {
+    private val glide: RequestManager by inject()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GistViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.element_gist, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.element_gist, parent, false)
         return GistViewHolder(view)
     }
 
@@ -26,7 +27,7 @@ class GistAdapter(
     override fun onBindViewHolder(holder: GistViewHolder, position: Int) {
         val gist = gists[position]
 
-        Glide.with(context).load(gist.owner.avatar_url).into(holder.avatar)
+        glide.load(gist.owner.avatar_url).into(holder.avatar)
         holder.username.text = gist.owner.login
         holder.content.text = gist.description
         holder.card.setOnClickListener { onClickAction(gist) }

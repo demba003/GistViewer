@@ -16,27 +16,29 @@ import org.mockito.junit.MockitoJUnitRunner
 class GistListTest {
     private val sampleGist: Gist = mock()
     private val sampleGistList = listOf(sampleGist)
-    private val view: ListContract.ListView = mock()
+    private val view: ListContract.View = mock()
     private var getGistsUseCase: GetGistsUseCase = mock()
 
     @Test
     fun displayDownloaded_whenDataDownloaded() {
         //given
-        whenever(getGistsUseCase.get()).thenReturn(Single.just(sampleGistList))
-        val presenter = ListPresenter(view, getGistsUseCase, TestSchedulerProvider())
+        whenever(getGistsUseCase.getGists()).thenReturn(Single.just(sampleGistList))
+        val presenter = ListPresenter(getGistsUseCase, TestSchedulerProvider())
+        presenter.init(view)
 
         // when
         presenter.downloadGists()
 
         // then
-        verify(view).displayDownloadedGists(sampleGistList)
+        verify(view).displayDownloadedGists()
     }
 
     @Test
     fun displayError_whenDownloadingError() {
         //given
-        whenever(getGistsUseCase.get()).thenReturn(Single.error(Throwable("Expected error")))
-        val presenter = ListPresenter(view, getGistsUseCase, TestSchedulerProvider())
+        whenever(getGistsUseCase.getGists()).thenReturn(Single.error(Throwable("Expected error")))
+        val presenter = ListPresenter(getGistsUseCase, TestSchedulerProvider())
+        presenter.init(view)
 
         // when
         presenter.downloadGists()
@@ -48,7 +50,8 @@ class GistListTest {
     @Test
     fun openGist_whenCardClicked() {
         //given
-        val presenter = ListPresenter(view, getGistsUseCase, TestSchedulerProvider())
+        val presenter = ListPresenter(getGistsUseCase, TestSchedulerProvider())
+        presenter.init(view)
 
         // when
         presenter.onCardClick(sampleGist)

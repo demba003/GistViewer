@@ -1,24 +1,23 @@
 package com.miquido.gistsmvp.screen.gistdetails
 
-import com.miquido.gistsmvp.models.FileGist
 import com.miquido.gistsmvp.models.Gist
 import com.miquido.gistsmvp.models.User
 
 interface DetailsContract {
 
-    interface DetailsView {
+    interface View {
         fun initViews(gist: Gist)
         fun updateUserData(user: User)
         fun showDownloadingError()
         fun goToUserProfile(user: User)
-        fun showGistContent(gist: FileGist)
+        fun showGistContent(gist: Gist)
     }
 
-    interface DetailsPresenter {
+    interface Presenter {
+        fun init(view: View, gist: Gist)
         fun downloadUser()
         fun onHeaderClick()
         fun downloadGistContent()
         fun dispose()
-        fun init()
     }
 }
