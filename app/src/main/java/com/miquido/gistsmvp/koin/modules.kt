@@ -12,7 +12,7 @@ import com.miquido.gistsmvp.usecase.GetGistUseCase
 import com.miquido.gistsmvp.usecase.GetGistsUseCase
 import com.miquido.gistsmvp.usecase.GetUserUseCase
 import org.koin.android.ext.koin.androidContext
-import org.koin.dsl.module.module
+import org.koin.dsl.module
 
 val modules = module {
     single { Network() }

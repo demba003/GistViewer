@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.miquido.gistsmvp.R
 import com.miquido.gistsmvp.models.Gist
-import org.koin.standalone.KoinComponent
-import org.koin.standalone.inject
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 
 class GistAdapter(
     private val gists: List<Gist>,

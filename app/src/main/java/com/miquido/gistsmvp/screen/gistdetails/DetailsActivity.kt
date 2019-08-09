@@ -12,12 +12,11 @@ import com.miquido.gistsmvp.models.Gist
 import com.miquido.gistsmvp.models.User
 import com.miquido.gistsmvp.screen.gistlist.ListActivity
 import kotlinx.android.synthetic.main.activity_gist.*
-import org.koin.standalone.KoinComponent
-import org.koin.standalone.inject
+import org.koin.android.ext.android.inject
 
 const val GIST = "gist"
 
-class DetailsActivity : AppCompatActivity(), DetailsContract.View, KoinComponent {
+class DetailsActivity : AppCompatActivity(), DetailsContract.View {
     private val presenter: DetailsContract.Presenter by inject()
     private val glide: RequestManager by inject()
 

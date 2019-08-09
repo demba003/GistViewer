@@ -10,10 +10,9 @@ import com.miquido.gistsmvp.models.Gist
 import com.miquido.gistsmvp.screen.gistdetails.DetailsActivity
 import com.miquido.gistsmvp.screen.gistdetails.GIST
 import kotlinx.android.synthetic.main.activity_list.*
-import org.koin.standalone.KoinComponent
-import org.koin.standalone.inject
+import org.koin.android.ext.android.inject
 
-class ListActivity : AppCompatActivity(), ListContract.View, KoinComponent {
+class ListActivity : AppCompatActivity(), ListContract.View {
     private val presenter: ListContract.Presenter by inject()
     private lateinit var adapter: GistAdapter
 

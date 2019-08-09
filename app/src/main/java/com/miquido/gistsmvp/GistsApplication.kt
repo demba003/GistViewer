@@ -2,11 +2,16 @@ package com.miquido.gistsmvp
 
 import android.app.Application
 import com.miquido.gistsmvp.koin.modules
-import org.koin.android.ext.android.startKoin
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 
 class GistsApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        startKoin(this, listOf(modules))
+
+        startKoin {
+            androidContext(this@GistsApplication)
+            modules(modules)
+        }
     }
 }
