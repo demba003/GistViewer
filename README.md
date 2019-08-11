@@ -12,3 +12,5 @@ Additionally, following libraries were used:
 - [RxAndroid](https://github.com/ReactiveX/RxAndroid)
 - [Glide](https://github.com/bumptech/glide)
 - [Mockito-kotlin](https://github.com/nhaarman/mockito-kotlin)
+
+You can also see MVVM version of this app [here](https://github.com/demba003/GistViewer/tree/mvvm)
