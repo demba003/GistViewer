@@ -73,7 +73,7 @@ dependencies {
     kapt "com.github.bumptech.glide:compiler:$glideVersion"
 
     // Koin
-    implementation "org.koin:koin-android:$koinVersion"
+    implementation "org.koin:koin-android-viewmodel:$koinVersion"
 
     // Tests
     testImplementation "junit:junit:$junitVersion"

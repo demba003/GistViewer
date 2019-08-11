@@ -1,11 +1,11 @@
 package com.miquido.gistsmvp.usecase
 
 import com.miquido.gistsmvp.models.Gist
-import com.miquido.gistsmvp.network.Network
+import com.miquido.gistsmvp.network.GistAPI
 import io.reactivex.Single
 
-class GetGistUseCase(private val network: Network) {
+class GetGistUseCase(private val api: GistAPI) {
     fun getGist(id: String): Single<Gist> {
-        return network.getBackend().getGist(id)
+        return api.getGist(id)
     }
 }
