@@ -10,10 +10,10 @@ import org.koin.core.KoinComponent
 import org.koin.core.inject
 
 class GistAdapter(
-    private val gists: List<Gist>,
     private val onClickAction: (Gist) -> Unit
 ) : RecyclerView.Adapter<GistViewHolder>(), KoinComponent {
     private val glide: RequestManager by inject()
+    var gists: List<Gist> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GistViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.element_gist, parent, false)

@@ -1,7 +1,7 @@
 ### Gist Viewer
 Display a list of lastly added [Gists](https://gist.github.com/discover) and open selected one to read it
 
-It's just sample app to demonstrate usage of MPV pattern on Android platform using Kotlin language.
+It's just a sample app to demonstrate usage of MVVM pattern on Android platform using Kotlin language.
 
 Additionally following libraries were used:
 - [Koin](https://github.com/InsertKoinIO/koin)
@@ -12,3 +12,5 @@ Additionally following libraries were used:
 - [RxAndroid](https://github.com/ReactiveX/RxAndroid)
 - [Glide](https://github.com/bumptech/glide)
 - [Mockito-kotlin](https://github.com/nhaarman/mockito-kotlin)
+
+You can also see MVP version of this app [here](https://github.com/demba003/GistViewer)
