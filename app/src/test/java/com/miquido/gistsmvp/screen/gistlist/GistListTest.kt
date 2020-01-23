@@ -2,7 +2,7 @@ package com.miquido.gistsmvp.screen.gistlist
 
 import com.miquido.gistsmvp.models.Gist
 import com.miquido.gistsmvp.schedulers.TestSchedulerProvider
-import com.miquido.gistsmvp.usecase.GetGistsUseCase
+import com.miquido.gistsmvp.datasource.GistsDataSource
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
@@ -17,13 +17,13 @@ class GistListTest {
     private val sampleGist: Gist = mock()
     private val sampleGistList = listOf(sampleGist)
     private val view: ListContract.View = mock()
-    private var getGistsUseCase: GetGistsUseCase = mock()
+    private var gistsDataSource: GistsDataSource = mock()
 
     @Test
     fun displayDownloaded_whenDataDownloaded() {
         //given
-        whenever(getGistsUseCase.getGists()).thenReturn(Single.just(sampleGistList))
-        val presenter = ListPresenter(getGistsUseCase, TestSchedulerProvider())
+        whenever(gistsDataSource.getGists()).thenReturn(Single.just(sampleGistList))
+        val presenter = ListPresenter(gistsDataSource, TestSchedulerProvider())
         presenter.init(view)
 
         // when
@@ -36,8 +36,8 @@ class GistListTest {
     @Test
     fun displayError_whenDownloadingError() {
         //given
-        whenever(getGistsUseCase.getGists()).thenReturn(Single.error(Throwable("Expected error")))
-        val presenter = ListPresenter(getGistsUseCase, TestSchedulerProvider())
+        whenever(gistsDataSource.getGists()).thenReturn(Single.error(Throwable("Expected error")))
+        val presenter = ListPresenter(gistsDataSource, TestSchedulerProvider())
         presenter.init(view)
 
         // when
@@ -50,7 +50,7 @@ class GistListTest {
     @Test
     fun openGist_whenCardClicked() {
         //given
-        val presenter = ListPresenter(getGistsUseCase, TestSchedulerProvider())
+        val presenter = ListPresenter(gistsDataSource, TestSchedulerProvider())
         presenter.init(view)
 
         // when

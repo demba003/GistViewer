@@ -4,14 +4,14 @@ import android.annotation.SuppressLint
 import com.miquido.gistsmvp.models.Gist
 import com.miquido.gistsmvp.models.User
 import com.miquido.gistsmvp.schedulers.SchedulerProvider
-import com.miquido.gistsmvp.usecase.GetGistUseCase
-import com.miquido.gistsmvp.usecase.GetUserUseCase
+import com.miquido.gistsmvp.datasource.GistDataSource
+import com.miquido.gistsmvp.datasource.UserDataSource
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 
 class DetailsPresenter(
-    private val getUserUseCase: GetUserUseCase,
-    private val getGistUseCase: GetGistUseCase,
+    private val userDataSource: UserDataSource,
+    private val gistDataSource: GistDataSource,
     private val schedulers: SchedulerProvider
 ) : DetailsContract.Presenter {
     private val disposables = CompositeDisposable()
@@ -32,7 +32,7 @@ class DetailsPresenter(
 
     @SuppressLint("CheckResult")
     override fun downloadUser() {
-        getUserUseCase.getUser(gist.owner.login)
+        userDataSource.getUser(gist.owner.login)
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.main())
             .doOnSubscribe { disposables.add(it) }
@@ -50,7 +50,7 @@ class DetailsPresenter(
 
     @SuppressLint("CheckResult")
     override fun downloadGistContent() {
-        getGistUseCase.getGist(gist.id)
+        gistDataSource.getGist(gist.id)
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.main())
             .doOnSubscribe { disposables.add(it) }
