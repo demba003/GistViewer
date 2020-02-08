@@ -8,8 +8,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.RequestManager
 import com.miquido.gistsmvp.R
-import com.miquido.gistsmvp.models.Gist
-import com.miquido.gistsmvp.models.User
+import com.miquido.gistsmvp.models.local.UserModel
+import com.miquido.gistsmvp.models.network.Gist
 import com.miquido.gistsmvp.screen.gistlist.ListActivity
 import kotlinx.android.synthetic.main.activity_gist.*
 import org.koin.android.ext.android.inject
@@ -40,9 +40,11 @@ class DetailsActivity : AppCompatActivity(), DetailsContract.View {
         contentDescription.text = gist.description
     }
 
-    override fun updateUserData(user: User) {
-        followers.text = user.followers.toString()
-        repos.text = user.public_repos.toString()
+    override fun updateUserData(user: UserModel) {
+        glide.load(user.avatarUrl).into(image)
+        username.text = user.name
+        followers.text = user.followersCount.toString()
+        repos.text = user.reposCount.toString()
     }
 
     override fun showGistContent(gist: Gist) {
@@ -56,9 +58,9 @@ class DetailsActivity : AppCompatActivity(), DetailsContract.View {
         Toast.makeText(this, "Loading error", Toast.LENGTH_LONG).show()
     }
 
-    override fun goToUserProfile(user: User) {
+    override fun goToUserProfile(user: UserModel) {
         Intent(Intent.ACTION_VIEW).apply {
-            data = Uri.parse(user.html_url)
+            data = Uri.parse(user.avatarUrl)
             startActivity(this)
         }
     }

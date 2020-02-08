@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.miquido.gistsmvp.R
-import com.miquido.gistsmvp.models.Gist
+import com.miquido.gistsmvp.models.network.Gist
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 

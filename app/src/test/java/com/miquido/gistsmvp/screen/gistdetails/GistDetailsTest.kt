@@ -1,11 +1,11 @@
 package com.miquido.gistsmvp.screen.gistdetails
 
-import com.miquido.gistsmvp.models.Gist
-import com.miquido.gistsmvp.models.Owner
-import com.miquido.gistsmvp.models.User
+import com.miquido.gistsmvp.models.local.UserModel
+import com.miquido.gistsmvp.models.network.Gist
+import com.miquido.gistsmvp.models.network.Owner
 import com.miquido.gistsmvp.schedulers.TestSchedulerProvider
-import com.miquido.gistsmvp.datasource.GistDataSource
-import com.miquido.gistsmvp.datasource.UserDataSource
+import com.miquido.gistsmvp.repository.GistRepository
+import com.miquido.gistsmvp.repository.UserRepository
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
@@ -17,17 +17,22 @@ import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
 class GistDetailsTest {
-    private val sampleUser: User = mock ()
-    private val sampleGist = Gist("id", Owner("login", "url"), "description", mapOf())
+    private val sampleUser: UserModel = mock ()
+    private val sampleGist = Gist(
+        "id",
+        Owner("login", "url"),
+        "description",
+        mapOf()
+    )
     private val view: DetailsContract.View = mock()
-    private var gistDataSource: GistDataSource = mock()
-    private var userDataSource: UserDataSource = mock()
+    private var gistRepository: GistRepository = mock()
+    private var userRepository: UserRepository = mock()
 
     @Test
     fun displayDownloadedUser_whenDownloadedProperly() {
         // given
-        whenever(userDataSource.getUser(any())).thenReturn(Single.just(sampleUser))
-        val presenter = DetailsPresenter(userDataSource, gistDataSource, TestSchedulerProvider())
+        whenever(userRepository.getUser(any())).thenReturn(Single.just(sampleUser))
+        val presenter = DetailsPresenter(userRepository, gistRepository, TestSchedulerProvider())
         presenter.init(view, sampleGist)
 
         // when
@@ -40,8 +45,8 @@ class GistDetailsTest {
     @Test
     fun displayError_whenDownloadingUserError() {
         //given
-        whenever(userDataSource.getUser(any())).thenReturn(Single.error(Throwable("Expected error")))
-        val presenter = DetailsPresenter(userDataSource, gistDataSource, TestSchedulerProvider())
+        whenever(userRepository.getUser(any())).thenReturn(Single.error(Throwable("Expected error")))
+        val presenter = DetailsPresenter(userRepository, gistRepository, TestSchedulerProvider())
         presenter.init(view, sampleGist)
 
         // when
@@ -54,8 +59,8 @@ class GistDetailsTest {
     @Test
     fun displayDownloadedGist_whenDownloadedProperly() {
         // given
-        whenever(gistDataSource.getGist(any())).thenReturn(Single.just(sampleGist))
-        val presenter = DetailsPresenter(userDataSource, gistDataSource, TestSchedulerProvider())
+        whenever(gistRepository.getGist(any())).thenReturn(Single.just(sampleGist))
+        val presenter = DetailsPresenter(userRepository, gistRepository, TestSchedulerProvider())
         presenter.init(view, sampleGist)
 
         // when
@@ -68,8 +73,8 @@ class GistDetailsTest {
     @Test
     fun displayError_whenDownloadingGistError() {
         // given
-        whenever(gistDataSource.getGist(any())).thenReturn(Single.error(Throwable("Expected error")))
-        val presenter = DetailsPresenter(userDataSource, gistDataSource, TestSchedulerProvider())
+        whenever(gistRepository.getGist(any())).thenReturn(Single.error(Throwable("Expected error")))
+        val presenter = DetailsPresenter(userRepository, gistRepository, TestSchedulerProvider())
         presenter.init(view, sampleGist)
 
         // when
@@ -82,8 +87,8 @@ class GistDetailsTest {
     @Test
     fun goToUserProfile_whenHeaderClicked() {
         // given
-        whenever(userDataSource.getUser(any())).thenReturn(Single.just(sampleUser))
-        val presenter = DetailsPresenter(userDataSource, gistDataSource, TestSchedulerProvider())
+        whenever(userRepository.getUser(any())).thenReturn(Single.just(sampleUser))
+        val presenter = DetailsPresenter(userRepository, gistRepository, TestSchedulerProvider())
         presenter.init(view, sampleGist)
         presenter.downloadUser()
 

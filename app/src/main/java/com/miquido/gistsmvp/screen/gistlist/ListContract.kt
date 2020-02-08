@@ -1,6 +1,6 @@
 package com.miquido.gistsmvp.screen.gistlist
 
-import com.miquido.gistsmvp.models.Gist
+import com.miquido.gistsmvp.models.network.Gist
 
 interface ListContract {
     interface View {

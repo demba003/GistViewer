@@ -6,7 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.miquido.gistsmvp.R
-import com.miquido.gistsmvp.models.Gist
+import com.miquido.gistsmvp.models.network.Gist
 import com.miquido.gistsmvp.screen.gistdetails.DetailsActivity
 import com.miquido.gistsmvp.screen.gistdetails.GIST
 import kotlinx.android.synthetic.main.activity_list.*

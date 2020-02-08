@@ -1,14 +1,14 @@
 package com.miquido.gistsmvp.screen.gistlist
 
 import android.annotation.SuppressLint
-import com.miquido.gistsmvp.models.Gist
+import com.miquido.gistsmvp.models.network.Gist
 import com.miquido.gistsmvp.schedulers.SchedulerProvider
-import com.miquido.gistsmvp.datasource.GistsDataSource
+import com.miquido.gistsmvp.repository.GistsRepository
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 
 class ListPresenter(
-    private val gistsDataSource: GistsDataSource,
+    private val gistsRepository: GistsRepository,
     private val schedulers: SchedulerProvider
 ) : ListContract.Presenter {
     private val disposables = CompositeDisposable()
@@ -25,7 +25,7 @@ class ListPresenter(
 
     @SuppressLint("CheckResult")
     override fun downloadGists() {
-        gistsDataSource.getGists()
+        gistsRepository.getGists()
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.main())
             .doOnSubscribe { disposables.add(it) }

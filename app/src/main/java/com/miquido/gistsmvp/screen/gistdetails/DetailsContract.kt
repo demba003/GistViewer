@@ -1,15 +1,16 @@
 package com.miquido.gistsmvp.screen.gistdetails
 
-import com.miquido.gistsmvp.models.Gist
-import com.miquido.gistsmvp.models.User
+import com.miquido.gistsmvp.models.local.UserModel
+import com.miquido.gistsmvp.models.network.Gist
+import com.miquido.gistsmvp.models.network.User
 
 interface DetailsContract {
 
     interface View {
         fun initViews(gist: Gist)
-        fun updateUserData(user: User)
+        fun updateUserData(user: UserModel)
         fun showDownloadingError()
-        fun goToUserProfile(user: User)
+        fun goToUserProfile(user: UserModel)
         fun showGistContent(gist: Gist)
     }
 

@@ -1,4 +1,4 @@
-package com.miquido.gistsmvp.models
+package com.miquido.gistsmvp.models.network
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
