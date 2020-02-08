@@ -1,4 +1,4 @@
-### Gist Viewer
+### Gist Viewer [![Build Status](https://travis-ci.org/demba003/GistViewer.svg?branch=mvp-cache)](https://travis-ci.org/demba003/GistViewer)
 Display a list of lastly added [Gists](https://gist.github.com/discover) and open selected one to read it
 
 It's just sample app to demonstrate usage of MPV pattern on Android platform using Kotlin language.
