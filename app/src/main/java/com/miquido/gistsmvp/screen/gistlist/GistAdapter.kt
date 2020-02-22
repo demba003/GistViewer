@@ -5,13 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.miquido.gistsmvp.R
-import com.miquido.gistsmvp.models.network.Gist
+import com.miquido.gistsmvp.models.local.GistEntryModel
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
 class GistAdapter(
-    private val gists: List<Gist>,
-    private val onClickAction: (Gist) -> Unit
+    private val gists: List<GistEntryModel>,
+    private val onClickAction: (GistEntryModel) -> Unit
 ) : RecyclerView.Adapter<GistViewHolder>(), KoinComponent {
     private val glide: RequestManager by inject()
 
@@ -27,8 +27,8 @@ class GistAdapter(
     override fun onBindViewHolder(holder: GistViewHolder, position: Int) {
         val gist = gists[position]
 
-        glide.load(gist.owner.avatar_url).into(holder.avatar)
-        holder.username.text = gist.owner.login
+        glide.load(gist.ownerAvatarUrl).into(holder.avatar)
+        holder.username.text = gist.ownerLogin
         holder.content.text = gist.description
         holder.card.setOnClickListener { onClickAction(gist) }
     }

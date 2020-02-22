@@ -1,7 +1,7 @@
 package com.miquido.gistsmvp.screen.gistlist
 
 import android.annotation.SuppressLint
-import com.miquido.gistsmvp.models.network.Gist
+import com.miquido.gistsmvp.models.local.GistEntryModel
 import com.miquido.gistsmvp.schedulers.SchedulerProvider
 import com.miquido.gistsmvp.repository.GistsRepository
 import io.reactivex.disposables.CompositeDisposable
@@ -13,9 +13,9 @@ class ListPresenter(
 ) : ListContract.Presenter {
     private val disposables = CompositeDisposable()
     private lateinit var view: ListContract.View
-    private var gists = mutableListOf<Gist>()
+    private var gists = mutableListOf<GistEntryModel>()
 
-    override fun getGists(): List<Gist> {
+    override fun getGists(): List<GistEntryModel> {
         return gists
     }
 
@@ -42,7 +42,7 @@ class ListPresenter(
             )
     }
 
-    override fun onCardClick(gist: Gist) {
+    override fun onCardClick(gist: GistEntryModel) {
         view.openGist(gist)
     }
 

@@ -1,6 +1,6 @@
 package com.miquido.gistsmvp.screen.gistlist
 
-import com.miquido.gistsmvp.models.network.Gist
+import com.miquido.gistsmvp.models.local.GistEntryModel
 import com.miquido.gistsmvp.schedulers.TestSchedulerProvider
 import com.miquido.gistsmvp.repository.GistsRepository
 import com.nhaarman.mockitokotlin2.mock
@@ -14,7 +14,7 @@ import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
 class GistListTest {
-    private val sampleGist: Gist = mock()
+    private val sampleGist: GistEntryModel = mock()
     private val sampleGistList = listOf(sampleGist)
     private val view: ListContract.View = mock()
     private var gistsRepository: GistsRepository = mock()

@@ -5,7 +5,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.miquido.gistsmvp.R
-import com.miquido.gistsmvp.models.network.Gist
+import com.miquido.gistsmvp.models.local.GistEntryModel
 import com.miquido.gistsmvp.screen.gistdetails.DetailsActivity
 import kotlinx.android.synthetic.main.activity_list.*
 import org.koin.android.ext.android.inject
@@ -44,8 +44,8 @@ class ListActivity : AppCompatActivity(), ListContract.View {
         swipeRefreshLayout.isRefreshing = false
     }
 
-    override fun openGist(gist: Gist) {
-        startActivity(DetailsActivity.newIntent(this, gist.id, gist.owner.login))
+    override fun openGist(gist: GistEntryModel) {
+        startActivity(DetailsActivity.newIntent(this, gist.id, gist.ownerLogin))
     }
 
     override fun onDestroy() {
