@@ -5,6 +5,7 @@ import com.miquido.gistsmvp.models.local.UserModel
 import com.miquido.gistsmvp.models.local.toDbModel
 import com.miquido.gistsmvp.models.local.toLocalModel
 import com.miquido.gistsmvp.network.GistAPI
+import io.reactivex.Observable
 import io.reactivex.Single
 
 class UserRepository(
@@ -18,7 +19,11 @@ class UserRepository(
             }
             .map { it.toLocalModel() }
             .onErrorResumeNext {
-                db.getByLogin(login)
+                db.getAll()
+                    .toObservable()
+                    .flatMap { Observable.fromIterable(it) }
+                    .filter { it.login == login }
+                    .firstOrError()
                     .map { it.toLocalModel() }
             }
     }
