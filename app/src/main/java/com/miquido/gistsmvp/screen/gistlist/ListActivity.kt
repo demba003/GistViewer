@@ -1,6 +1,5 @@
 package com.miquido.gistsmvp.screen.gistlist
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -8,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.miquido.gistsmvp.R
 import com.miquido.gistsmvp.models.network.Gist
 import com.miquido.gistsmvp.screen.gistdetails.DetailsActivity
-import com.miquido.gistsmvp.screen.gistdetails.GIST
 import kotlinx.android.synthetic.main.activity_list.*
 import org.koin.android.ext.android.inject
 
@@ -47,10 +45,7 @@ class ListActivity : AppCompatActivity(), ListContract.View {
     }
 
     override fun openGist(gist: Gist) {
-        Intent(this, DetailsActivity::class.java).apply {
-            putExtra(GIST, gist)
-            startActivity(this)
-        }
+        startActivity(DetailsActivity.newIntent(this, gist.id, gist.owner.login))
     }
 
     override fun onDestroy() {

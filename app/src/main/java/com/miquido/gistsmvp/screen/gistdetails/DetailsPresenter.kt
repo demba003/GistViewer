@@ -1,41 +1,42 @@
 package com.miquido.gistsmvp.screen.gistdetails
 
-import android.annotation.SuppressLint
-import com.miquido.gistsmvp.models.network.Gist
 import com.miquido.gistsmvp.schedulers.SchedulerProvider
-import com.miquido.gistsmvp.repository.GistRepository
+import com.miquido.gistsmvp.repository.GistDetailsRepository
 import com.miquido.gistsmvp.repository.UserRepository
 import com.miquido.gistsmvp.models.local.UserModel
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
 
 class DetailsPresenter(
     private val userRepository: UserRepository,
-    private val gistRepository: GistRepository,
+    private val gistDetailsRepository: GistDetailsRepository,
     private val schedulers: SchedulerProvider
 ) : DetailsContract.Presenter {
     private val disposables = CompositeDisposable()
     private lateinit var user: UserModel
-    private lateinit var fileGist: Gist
     private lateinit var view: DetailsContract.View
-    private lateinit var gist: Gist
 
-    override fun init(view: DetailsContract.View, gist: Gist) {
+    private var gistId: String = ""
+    private var ownerLogin: String = ""
+
+    override fun init(view: DetailsContract.View, gistId: String, ownerLogin: String) {
         this.view = view
-        this.gist = gist
-        view.initViews(gist)
+        this.gistId = gistId
+        this.ownerLogin = ownerLogin
+
+        downloadUser()
+        downloadGistContent()
     }
 
     override fun onHeaderClick() {
-        view.goToUserProfile(user)
+        view.goToUserProfile(user.profileUrl)
     }
 
-    @SuppressLint("CheckResult")
-    override fun downloadUser() {
-        userRepository.getUser(gist.owner.login)
+    private fun downloadUser() {
+        disposables += userRepository.getUser(ownerLogin)
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.main())
-            .doOnSubscribe { disposables.add(it) }
             .subscribeBy(
                 onSuccess = {
                     user = it
@@ -48,15 +49,12 @@ class DetailsPresenter(
             )
     }
 
-    @SuppressLint("CheckResult")
-    override fun downloadGistContent() {
-        gistRepository.getGist(gist.id)
+    private fun downloadGistContent() {
+        disposables += gistDetailsRepository.getGist(gistId)
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.main())
-            .doOnSubscribe { disposables.add(it) }
             .subscribeBy(
                 onSuccess = {
-                    fileGist = it
                     view.showGistContent(it)
                 },
                 onError = {
