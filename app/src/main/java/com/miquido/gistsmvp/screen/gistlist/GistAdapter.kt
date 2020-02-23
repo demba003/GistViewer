@@ -27,7 +27,11 @@ class GistAdapter(
     override fun onBindViewHolder(holder: GistViewHolder, position: Int) {
         val gist = gists[position]
 
-        glide.load(gist.ownerAvatarUrl).into(holder.avatar)
+        gist.ownerAvatarUrl?.let {
+            glide.load(it).into(holder.avatar)
+        } ?: glide.load(R.drawable.ic_githubmark).into(holder.avatar)
+
+
         holder.username.text = gist.ownerLogin
         holder.content.text = gist.description
         holder.card.setOnClickListener { onClickAction(gist) }

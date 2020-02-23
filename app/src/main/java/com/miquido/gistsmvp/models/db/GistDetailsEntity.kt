@@ -8,6 +8,7 @@ data class GistDetailsEntity(
     @PrimaryKey
     val id: String,
     val description: String,
+    val ownerLogin: String,
     val fileId: Int,
     val filename: String,
     val content: String?

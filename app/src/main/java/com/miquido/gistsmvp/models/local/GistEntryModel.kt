@@ -7,7 +7,7 @@ data class GistEntryModel(
     val id: String,
     val ownerLogin: String,
     val ownerAvatarUrl: String?,
-    val description: String
+    val description: String?
 )
 
 fun Gist.toLocalEntryModel() =
@@ -16,4 +16,4 @@ fun Gist.toLocalEntryModel() =
 fun List<Gist>.toLocalEntryModel() = map { it.toLocalEntryModel() }
 
 fun GistDetailsEntity.toLocalEntryModel() =
-    GistEntryModel(id, "TODO", "TODO", description)
+    GistEntryModel(id, ownerLogin, null, description)

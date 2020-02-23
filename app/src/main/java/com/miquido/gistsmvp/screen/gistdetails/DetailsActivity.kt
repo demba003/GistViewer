@@ -39,8 +39,8 @@ class DetailsActivity : AppCompatActivity(), DetailsContract.View {
 
     override fun showGistContent(gist: GistDetailsModel) {
         if (gist.description.isEmpty()) contentDescription.visibility = View.GONE
-        contentText.text = gist.file?.content
-        fileName.text = gist.file?.filename
+        contentText.text = gist.file.content
+        fileName.text = gist.file.filename
     }
 
     override fun showDownloadingError() {
