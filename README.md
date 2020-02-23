@@ -1,7 +1,7 @@
 ### Gist Viewer [![Build Status](https://travis-ci.org/demba003/GistViewer.svg?branch=mvp-cache)](https://travis-ci.org/demba003/GistViewer)
 Display a list of lastly added [Gists](https://gist.github.com/discover) and open selected one to read it
 
-It's just sample app to demonstrate usage of MPV pattern on Android platform using Kotlin language.
+It's just sample app to demonstrate usage of MVP pattern on Android platform using Kotlin language.
 
 Additionally following libraries were used:
 - [Koin](https://github.com/InsertKoinIO/koin)
@@ -12,3 +12,7 @@ Additionally following libraries were used:
 - [RxAndroid](https://github.com/ReactiveX/RxAndroid)
 - [Glide](https://github.com/bumptech/glide)
 - [Mockito-kotlin](https://github.com/nhaarman/mockito-kotlin)
+
+This version additionally uses [Room](https://developer.android.com/topic/libraries/architecture/room) to cache data
+
+You can also see MVVM version of this app [here](https://github.com/demba003/GistViewer/tree/mvvm) (without cache)
