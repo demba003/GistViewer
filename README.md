@@ -13,4 +13,7 @@ Additionally, following libraries were used:
 - [Glide](https://github.com/bumptech/glide)
 - [Mockito-kotlin](https://github.com/nhaarman/mockito-kotlin)
 
-You can also see MVVM version of this app [here](https://github.com/demba003/GistViewer/tree/mvvm)
+You can also see
+- MVVM version of this app [here](https://github.com/demba003/GistViewer/tree/mvvm)
+- MVP with cache using Room [here](https://github.com/demba003/GistViewer/tree/mvp-cache)
+- MVP with cache and Dager instead of Koin [here](https://github.com/demba003/GistViewer/tree/mvp-cache-dagger)
