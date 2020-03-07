@@ -5,9 +5,11 @@ import com.miquido.gistsmvp.models.local.GistEntryModel
 import com.miquido.gistsmvp.schedulers.SchedulerProvider
 import com.miquido.gistsmvp.repository.GistsRepository
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
+import javax.inject.Inject
 
-class ListPresenter(
+class ListPresenter @Inject constructor(
     private val gistsRepository: GistsRepository,
     private val schedulers: SchedulerProvider
 ) : ListContract.Presenter {
@@ -21,19 +23,18 @@ class ListPresenter(
 
     override fun init(view: ListContract.View) {
         this.view = view
+        downloadGists()
     }
 
-    @SuppressLint("CheckResult")
     override fun downloadGists() {
-        gistsRepository.getGists()
+        disposables += gistsRepository.getGists()
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.main())
-            .doOnSubscribe { disposables.add(it) }
             .subscribeBy(
                 onSuccess = {
                     gists.clear()
                     gists.addAll(it)
-                    view.displayDownloadedGists()
+                    view.displayDownloadedGists(it)
                 },
                 onError = {
                     it.printStackTrace()

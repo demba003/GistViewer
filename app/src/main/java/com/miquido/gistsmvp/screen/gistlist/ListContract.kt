@@ -4,7 +4,7 @@ import com.miquido.gistsmvp.models.local.GistEntryModel
 
 interface ListContract {
     interface View {
-        fun displayDownloadedGists()
+        fun displayDownloadedGists(list: List<GistEntryModel>)
         fun showDownloadingError()
         fun openGist(gist: GistEntryModel)
     }

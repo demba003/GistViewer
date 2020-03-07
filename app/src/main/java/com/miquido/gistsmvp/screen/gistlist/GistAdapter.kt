@@ -6,14 +6,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.miquido.gistsmvp.R
 import com.miquido.gistsmvp.models.local.GistEntryModel
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import javax.inject.Inject
 
-class GistAdapter(
-    private val gists: List<GistEntryModel>,
-    private val onClickAction: (GistEntryModel) -> Unit
-) : RecyclerView.Adapter<GistViewHolder>(), KoinComponent {
-    private val glide: RequestManager by inject()
+class GistAdapter @Inject constructor(
+    private val glide: RequestManager
+) : RecyclerView.Adapter<GistViewHolder>() {
+
+    var onClickAction: (GistEntryModel) -> Unit = {}
+    var gists: List<GistEntryModel> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GistViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.element_gist, parent, false)

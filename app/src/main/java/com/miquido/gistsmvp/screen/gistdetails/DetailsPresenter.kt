@@ -7,8 +7,9 @@ import com.miquido.gistsmvp.models.local.UserModel
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.rxkotlin.subscribeBy
+import javax.inject.Inject
 
-class DetailsPresenter(
+class DetailsPresenter @Inject constructor(
     private val userRepository: UserRepository,
     private val gistDetailsRepository: GistDetailsRepository,
     private val schedulers: SchedulerProvider

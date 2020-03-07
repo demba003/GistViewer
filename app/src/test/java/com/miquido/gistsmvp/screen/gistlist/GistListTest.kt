@@ -24,13 +24,13 @@ class GistListTest {
         //given
         whenever(gistsRepository.getGists()).thenReturn(Single.just(sampleGistList))
         val presenter = ListPresenter(gistsRepository, TestSchedulerProvider())
-        presenter.init(view)
 
         // when
-        presenter.downloadGists()
+        presenter.init(view)
+
 
         // then
-        verify(view).displayDownloadedGists()
+        verify(view).displayDownloadedGists(sampleGistList)
     }
 
     @Test
@@ -38,10 +38,9 @@ class GistListTest {
         //given
         whenever(gistsRepository.getGists()).thenReturn(Single.error(Throwable("Expected error")))
         val presenter = ListPresenter(gistsRepository, TestSchedulerProvider())
-        presenter.init(view)
 
         // when
-        presenter.downloadGists()
+        presenter.init(view)
 
         // then
         verify(view).showDownloadingError()
@@ -50,6 +49,7 @@ class GistListTest {
     @Test
     fun openGist_whenCardClicked() {
         //given
+        whenever(gistsRepository.getGists()).thenReturn(Single.just(sampleGistList))
         val presenter = ListPresenter(gistsRepository, TestSchedulerProvider())
         presenter.init(view)
 

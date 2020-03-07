@@ -8,17 +8,23 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.RequestManager
+import com.miquido.gistsmvp.GistsApplication
 import com.miquido.gistsmvp.R
 import com.miquido.gistsmvp.models.local.GistDetailsModel
 import com.miquido.gistsmvp.models.local.UserModel
 import kotlinx.android.synthetic.main.activity_gist.*
-import org.koin.android.ext.android.inject
+import javax.inject.Inject
 
 class DetailsActivity : AppCompatActivity(), DetailsContract.View {
-    private val presenter: DetailsContract.Presenter by inject()
-    private val glide: RequestManager by inject()
+    @Inject
+    lateinit var presenter: DetailsContract.Presenter
+
+    @Inject
+    lateinit var glide: RequestManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        (application as GistsApplication).appComponent.inject(this)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gist)
 

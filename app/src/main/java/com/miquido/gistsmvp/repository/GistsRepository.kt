@@ -5,8 +5,9 @@ import com.miquido.gistsmvp.models.local.GistEntryModel
 import com.miquido.gistsmvp.models.local.toLocalEntryModel
 import com.miquido.gistsmvp.network.GistAPI
 import io.reactivex.Single
+import javax.inject.Inject
 
-class GistsRepository(
+class GistsRepository @Inject constructor(
     private val api: GistAPI,
     private val db: GistDetailsDao
 ) {

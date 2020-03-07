@@ -7,8 +7,9 @@ import com.miquido.gistsmvp.models.local.toLocalModel
 import com.miquido.gistsmvp.network.GistAPI
 import io.reactivex.Observable
 import io.reactivex.Single
+import javax.inject.Inject
 
-class UserRepository(
+class UserRepository @Inject constructor(
     private val api: GistAPI,
     private val db: UserDao
 ) {
