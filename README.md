@@ -15,5 +15,6 @@ Additionally, following libraries were used:
 
 You can also see
 - MVVM version of this app [here](https://github.com/demba003/GistViewer/tree/mvvm)
+- MVVM with coroutines instead of RxJava [here](https://github.com/demba003/GistViewer/tree/mvvm-coroutines)
 - MVP with cache using Room [here](https://github.com/demba003/GistViewer/tree/mvp-cache)
 - MVP with cache and Dagger instead of Koin [here](https://github.com/demba003/GistViewer/tree/mvp-cache-dagger)
