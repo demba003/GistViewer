@@ -11,11 +11,11 @@ const val USERS = "/users"
 
 interface GistAPI {
     @GET(GISTS)
-    fun getGists(): Single<List<Gist>>
+    suspend fun getGists(): List<Gist>
 
     @GET("$GISTS/{id}")
-    fun getGist(@Path("id") id: String): Single<Gist>
+    suspend fun getGist(@Path("id") id: String): Gist
 
     @GET("$USERS/{username}")
-    fun getUser(@Path("username") username: String): Single<User>
+    suspend fun getUser(@Path("username") username: String): User
 }

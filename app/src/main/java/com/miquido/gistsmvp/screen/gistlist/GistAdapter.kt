@@ -17,6 +17,10 @@ class GistAdapter(
     private val glide: RequestManager by inject()
 
     var gists: List<GistEntryModel> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GistViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.element_gist, parent, false)

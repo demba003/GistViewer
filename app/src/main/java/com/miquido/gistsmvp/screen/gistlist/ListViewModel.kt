@@ -2,41 +2,26 @@ package com.miquido.gistsmvp.screen.gistlist
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.miquido.gistsmvp.models.local.GistEntryModel
-import com.miquido.gistsmvp.schedulers.SchedulerProvider
+import com.miquido.gistsmvp.models.local.Result
 import com.miquido.gistsmvp.usecase.GetGistsUseCase
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.plusAssign
-import io.reactivex.rxkotlin.subscribeBy
+import kotlinx.coroutines.launch
 
 class ListViewModel(
-    private val getGistsUseCase: GetGistsUseCase,
-    private val schedulers: SchedulerProvider
+    private val getGistsUseCase: GetGistsUseCase
 ) : ViewModel() {
 
-    private val disposables = CompositeDisposable()
-
-    val gists = MutableLiveData<List<GistEntryModel>>()
-    val error = MutableLiveData<Boolean>()
+    val gists = MutableLiveData<Result<List<GistEntryModel>>>()
 
     fun downloadGists() {
-        disposables += getGistsUseCase.getGists()
-            .subscribeOn(schedulers.io())
-            .observeOn(schedulers.main())
-            .subscribeBy(
-                onSuccess = {
-                    gists.value = it
-                    error.value = false
-                },
-                onError = {
-                    it.printStackTrace()
-                    error.value = true
-                }
-            )
-    }
-
-    override fun onCleared() {
-        disposables.clear()
-        super.onCleared()
+        viewModelScope.launch {
+            gists.value = Result.Loading()
+            try {
+                gists.value = Result.Success(getGistsUseCase.getGists())
+            } catch (e: Exception) {
+                gists.value = Result.Failure(e)
+            }
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.miquido.gistsmvp.screen.gistlist
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -8,19 +9,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.miquido.gistsmvp.R
 import com.miquido.gistsmvp.models.local.GistEntryModel
 import com.miquido.gistsmvp.screen.gistdetails.DetailsActivity
+import com.miquido.gistsmvp.models.local.Result
 import kotlinx.android.synthetic.main.activity_list.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class ListActivity : AppCompatActivity() {
+class ListActivity : AppCompatActivity(R.layout.activity_list) {
     private val listViewModel: ListViewModel by viewModel()
     private lateinit var adapter: GistAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_list)
         initAdapter()
         initObservers()
-        swipeRefreshLayout.setOnRefreshListener(listViewModel::downloadGists)
+
         listViewModel.downloadGists()
     }
 
@@ -31,18 +32,25 @@ class ListActivity : AppCompatActivity() {
     }
 
     private fun initObservers() {
-        listViewModel.error.observe(this, Observer { if (it) showDownloadingError() })
         listViewModel.gists.observe(this, Observer { displayDownloadedGists(it) })
+        swipeRefreshLayout.setOnRefreshListener(listViewModel::downloadGists)
     }
 
-    private fun displayDownloadedGists(gists: List<GistEntryModel>) {
-        adapter.gists = gists
-        adapter.notifyDataSetChanged()
-        hideRefreshingIndicator()
-    }
+    private fun displayDownloadedGists(result: Result<List<GistEntryModel>>) {
+        when(result) {
+            is Result.Success -> {
+                adapter.gists = result.value
+                progressBar.visibility = View.GONE
+            }
+            is Result.Failure -> {
+                Toast.makeText(this, getString(R.string.loading_error), Toast.LENGTH_LONG).show()
+                progressBar.visibility = View.GONE
+            }
+            is Result.Loading -> {
+                progressBar.visibility = View.VISIBLE
+            }
+        }
 
-    private fun showDownloadingError() {
-        Toast.makeText(this, "Loading error", Toast.LENGTH_LONG).show()
         hideRefreshingIndicator()
     }
 

@@ -4,7 +4,5 @@ import com.miquido.gistsmvp.models.local.toLocalEntryModel
 import com.miquido.gistsmvp.network.GistAPI
 
 class GetGistsUseCase(private val api: GistAPI) {
-    fun getGists() =
-        api.getGists()
-            .map { it.toLocalEntryModel() }
+    suspend fun getGists() = api.getGists().toLocalEntryModel()
 }

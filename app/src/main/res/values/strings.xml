@@ -3,4 +3,6 @@
     <string name="public_repos">Public repos:</string>
     <string name="followers">Followers:</string>
     <string name="avatar">Avatar</string>
+    <string name="loading_error">Loading error</string>
+    <string name="wait">Wait until fetched</string>
 </resources>

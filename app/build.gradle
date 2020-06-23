@@ -34,6 +34,7 @@ ext {
     cardViewVersion = "1.0.0"
     swipeRefreshLayoutVersion = "1.0.0"
     recyclerViewVersion = "1.1.0"
+    lifecycleVersion = "2.2.0"
 
     rxJavaVersion = "2.2.12"
     rxAndroidVersion = "2.1.1"
@@ -57,15 +58,12 @@ dependencies {
 
     // Android X
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
     implementation "androidx.cardview:cardview:$cardViewVersion"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefreshLayoutVersion"
     implementation "androidx.recyclerview:recyclerview:$recyclerViewVersion"
-
-    // Rx
-    implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
-    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
-    implementation "io.reactivex.rxjava2:rxkotlin:$rxKotlin"
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"

@@ -7,10 +7,9 @@ Additionally following libraries were used:
 - [Koin](https://github.com/InsertKoinIO/koin)
 - [OkHttp](https://github.com/square/okhttp)
 - [Retrofit](https://github.com/square/retrofit)
-- [RxJava](https://github.com/ReactiveX/RxJava)
-- [RxKotlin](https://github.com/ReactiveX/RxKotlin)
-- [RxAndroid](https://github.com/ReactiveX/RxAndroid)
 - [Glide](https://github.com/bumptech/glide)
 - [Mockito-kotlin](https://github.com/nhaarman/mockito-kotlin)
+
+This version uses Kotlin coroutines for async operations instead of RxJava
 
 You can also see MVP version of this app [here](https://github.com/demba003/GistViewer)
