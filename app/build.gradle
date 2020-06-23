@@ -22,29 +22,33 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 ext {
-    appCompatVersion = "1.1.0-rc01"
-    constraintLayoutVersion = "2.0.0-beta2"
+    appCompatVersion = "1.1.0"
+    constraintLayoutVersion = "2.0.0-beta7"
     cardViewVersion = "1.0.0"
     swipeRefreshLayoutVersion = "1.0.0"
-    recyclerViewVersion = "1.0.0"
+    recyclerViewVersion = "1.1.0"
 
-    rxJavaVersion = "2.2.4"
+    rxJavaVersion = "2.2.12"
     rxAndroidVersion = "2.1.1"
-    rxKotlin = "2.3.0"
+    rxKotlin = "2.4.0"
 
-    retrofitVersion = "2.4.0"
-    rxRetrofitAdapter = "2.4.0"
-    gsonRetrofitConverter = "2.4.0"
+    retrofitVersion = "2.8.2"
+    rxRetrofitAdapter = "2.6.1"
+    gsonRetrofitConverter = "2.8.2"
 
-    glideVersion = "4.8.0"
-    koinVersion = "2.0.1"
+    glideVersion = "4.11.0"
+    koinVersion = "2.1.6"
 
     junitVersion = "4.12"
-    mockitoInlineVersion = "2.23.4"
-    mockitoKotlinVersion = "2.1.0"
+    mockitoInlineVersion = "3.3.3"
+    mockitoKotlinVersion = "2.2.0"
 }
 
 dependencies {
@@ -70,7 +74,7 @@ dependencies {
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$glideVersion"
-    kapt "com.github.bumptech.glide:compiler:$glideVersion"
+    annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
 
     // Koin
     implementation "org.koin:koin-android-viewmodel:$koinVersion"

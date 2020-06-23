@@ -1,15 +1,13 @@
 package com.miquido.gistsmvp.screen.gistlist
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.miquido.gistsmvp.R
-import com.miquido.gistsmvp.models.Gist
+import com.miquido.gistsmvp.models.local.GistEntryModel
 import com.miquido.gistsmvp.screen.gistdetails.DetailsActivity
-import com.miquido.gistsmvp.screen.gistdetails.GIST
 import kotlinx.android.synthetic.main.activity_list.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -37,7 +35,7 @@ class ListActivity : AppCompatActivity() {
         listViewModel.gists.observe(this, Observer { displayDownloadedGists(it) })
     }
 
-    private fun displayDownloadedGists(gists: List<Gist>) {
+    private fun displayDownloadedGists(gists: List<GistEntryModel>) {
         adapter.gists = gists
         adapter.notifyDataSetChanged()
         hideRefreshingIndicator()
@@ -52,10 +50,7 @@ class ListActivity : AppCompatActivity() {
         swipeRefreshLayout.isRefreshing = false
     }
 
-    private fun openGist(gist: Gist) {
-        Intent(this, DetailsActivity::class.java).apply {
-            putExtra(GIST, gist)
-            startActivity(this)
-        }
+    private fun openGist(gist: GistEntryModel) {
+        startActivity(DetailsActivity.newIntent(this, gist.id, gist.ownerLogin))
     }
 }

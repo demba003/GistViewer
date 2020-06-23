@@ -1,7 +1,7 @@
 package com.miquido.gistsmvp.network
 
-import com.miquido.gistsmvp.models.Gist
-import com.miquido.gistsmvp.models.User
+import com.miquido.gistsmvp.models.network.Gist
+import com.miquido.gistsmvp.models.network.User
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Path

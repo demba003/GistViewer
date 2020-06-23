@@ -2,7 +2,7 @@ package com.miquido.gistsmvp.screen.gistlist
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.miquido.gistsmvp.models.Gist
+import com.miquido.gistsmvp.models.local.GistEntryModel
 import com.miquido.gistsmvp.schedulers.SchedulerProvider
 import com.miquido.gistsmvp.usecase.GetGistsUseCase
 import io.reactivex.disposables.CompositeDisposable
@@ -16,7 +16,7 @@ class ListViewModel(
 
     private val disposables = CompositeDisposable()
 
-    val gists = MutableLiveData<List<Gist>>()
+    val gists = MutableLiveData<List<GistEntryModel>>()
     val error = MutableLiveData<Boolean>()
 
     fun downloadGists() {
