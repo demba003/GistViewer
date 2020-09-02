@@ -45,7 +45,6 @@ ext {
     gsonRetrofitConverter = "2.8.2"
 
     glideVersion = "4.11.0"
-    koinVersion = "2.1.6"
 
     junitVersion = "4.12"
     mockitoInlineVersion = "3.3.3"
@@ -54,6 +53,10 @@ ext {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation project(path: ':usecase')
+    implementation project(path: ':data')
+    implementation project(path: ':network')
+    implementation project(path: ':domain')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
     // Android X

@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.miquido.gistsmvp.R
-import com.miquido.gistsmvp.models.local.GistEntryModel
+import com.miquido.gistsmvp.domain.GistEntryModel
 import kotlinx.android.synthetic.main.element_gist.view.*
 import org.koin.core.KoinComponent
 import org.koin.core.inject

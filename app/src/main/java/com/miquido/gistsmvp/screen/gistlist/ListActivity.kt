@@ -7,9 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.miquido.gistsmvp.R
-import com.miquido.gistsmvp.models.local.GistEntryModel
+import com.miquido.gistsmvp.domain.GistEntryModel
 import com.miquido.gistsmvp.screen.gistdetails.DetailsActivity
-import com.miquido.gistsmvp.models.local.Result
+import com.miquido.gistsmvp.models.Result
 import kotlinx.android.synthetic.main.activity_list.*
 import org.koin.android.viewmodel.ext.android.viewModel
 

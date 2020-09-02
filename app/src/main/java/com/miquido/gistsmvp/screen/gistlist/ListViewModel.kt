@@ -3,9 +3,9 @@ package com.miquido.gistsmvp.screen.gistlist
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.miquido.gistsmvp.models.local.GistEntryModel
-import com.miquido.gistsmvp.models.local.Result
-import com.miquido.gistsmvp.usecase.GetGistsUseCase
+import com.miquido.gistmvp.usecase.GetGistsUseCase
+import com.miquido.gistsmvp.domain.GistEntryModel
+import com.miquido.gistsmvp.models.Result
 import kotlinx.coroutines.launch
 
 class ListViewModel(
@@ -18,7 +18,7 @@ class ListViewModel(
         viewModelScope.launch {
             gists.value = Result.Loading()
             try {
-                gists.value = Result.Success(getGistsUseCase.getGists())
+                gists.value = Result.Success(getGistsUseCase())
             } catch (e: Exception) {
                 gists.value = Result.Failure(e)
             }

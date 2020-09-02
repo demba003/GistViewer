@@ -1,5 +1,6 @@
 package com.miquido.gistsmvp.koin
 
+import com.miquido.gistmvp.data.datasource.GistDataSource
 import com.miquido.gistsmvp.BuildConfig
 import com.miquido.gistsmvp.network.GistAPI
 import org.koin.dsl.module
@@ -16,5 +17,5 @@ val networkModule = module {
             .build()
     }
 
-    single<GistAPI> { get<Retrofit>().create(GistAPI::class.java) }
+    single<GistDataSource> { get<Retrofit>().create(GistAPI::class.java) }
 }

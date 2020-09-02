@@ -10,6 +10,6 @@ Additionally following libraries were used:
 - [Glide](https://github.com/bumptech/glide)
 - [Mockito-kotlin](https://github.com/nhaarman/mockito-kotlin)
 
-This version uses Kotlin coroutines for async operations instead of RxJava
+This version uses Kotlin coroutines for async operations instead of RxJava and has all layers separated as modules according to clean architecture
 
 You can also see MVP version of this app [here](https://github.com/demba003/GistViewer)

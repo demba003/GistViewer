@@ -10,9 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.bumptech.glide.RequestManager
 import com.miquido.gistsmvp.R
-import com.miquido.gistsmvp.models.local.GistDetailsModel
-import com.miquido.gistsmvp.models.local.Result
-import com.miquido.gistsmvp.models.local.UserModel
+import com.miquido.gistsmvp.domain.GistDetailsModel
+import com.miquido.gistsmvp.domain.UserModel
+import com.miquido.gistsmvp.models.Result
 import kotlinx.android.synthetic.main.activity_gist.*
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
