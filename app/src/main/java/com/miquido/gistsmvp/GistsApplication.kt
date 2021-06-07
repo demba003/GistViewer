@@ -1,11 +1,7 @@
 package com.miquido.gistsmvp
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
-class GistsApplication : Application() {
-
-    val appComponent: AppComponent by lazy {
-        DaggerAppComponent.factory().create(applicationContext)
-    }
-
-}
+@HiltAndroidApp
+class GistsApplication : Application()

@@ -1,4 +1,4 @@
-### Gist Viewer [![Build Status](https://travis-ci.org/demba003/GistViewer.svg?branch=mvp-cache)](https://travis-ci.org/demba003/GistViewer)
+### Gist Viewer [![Build Status](https://travis-ci.org/demba003/GistViewer.svg?branch=mvp-cache-dagger-hilt)](https://travis-ci.org/demba003/GistViewer)
 Display a list of lastly added [Gists](https://gist.github.com/discover) and open selected one to read it
 
 It's just sample app to demonstrate usage of MVP pattern on Android platform using Kotlin language.
@@ -12,6 +12,6 @@ Additionally following libraries were used:
 - [Glide](https://github.com/bumptech/glide)
 - [Mockito-kotlin](https://github.com/nhaarman/mockito-kotlin)
 
-This version additionally uses [Room](https://developer.android.com/topic/libraries/architecture/room) to cache data and [Dagger](https://github.com/google/dagger) for dependency injection (instead of Koin)
+This version additionally uses [Room](https://developer.android.com/topic/libraries/architecture/room) to cache data and [Dagger Hilt](https://dagger.dev/hilt/) for dependency injection (instead of Koin)
 
 You can also see MVVM version of this app [here](https://github.com/demba003/GistViewer/tree/mvvm) (without cache)

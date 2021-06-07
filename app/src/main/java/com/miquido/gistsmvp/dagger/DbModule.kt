@@ -7,12 +7,16 @@ import com.miquido.gistsmvp.db.GistDetailsDao
 import com.miquido.gistsmvp.db.UserDao
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 
 @Module
+@InstallIn(ActivityComponent::class)
 class DbModule {
 
     @Provides
-    fun provideRoom(context: Context): AppDatabase =
+    fun provideRoom(@ApplicationContext context: Context): AppDatabase =
         Room.databaseBuilder(context, AppDatabase::class.java, "database").build()
 
     @Provides

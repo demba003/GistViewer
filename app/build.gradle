@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     compileSdkVersion 29
@@ -45,9 +46,9 @@ ext {
     daggerVersion = "2.25.2"
     roomVersion = "2.2.3"
 
-    junitVersion = "4.12"
-    mockitoInlineVersion = "2.23.4"
-    mockitoKotlinVersion = "2.1.0"
+    junitVersion = "4.13.1"
+    mockitoInlineVersion = "3.10.0"
+    mockitoKotlinVersion = "2.2.0"
 }
 
 dependencies {
@@ -75,13 +76,9 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$glideVersion"
     kapt "com.github.bumptech.glide:compiler:$glideVersion"
 
-    // Koin
-    implementation "org.koin:koin-android-viewmodel:$koinVersion"
-
     // Dagger
-    api "com.google.dagger:dagger:$daggerVersion"
-    api "com.google.dagger:dagger-android-support:$daggerVersion"
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    implementation 'com.google.dagger:hilt-android:2.35.1'
+    kapt 'com.google.dagger:hilt-compiler:2.35.1'
 
     // Room
     implementation "androidx.room:room-runtime:$roomVersion"
