@@ -8,6 +8,9 @@ import com.miquido.gistsmvp.models.local.Result
 import com.miquido.gistsmvp.models.local.UserModel
 import com.miquido.gistsmvp.usecase.GetGistDetailsUseCase
 import com.miquido.gistsmvp.usecase.GetUserUseCase
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
 class DetailsViewModel(
@@ -21,23 +24,19 @@ class DetailsViewModel(
 
     fun downloadUser(login: String) {
         viewModelScope.launch {
-            user.value = Result.Loading()
-            try {
-                user.value = Result.Success(getUserUseCase.getUser(login))
-            } catch (e: Exception) {
-                user.value = Result.Failure(e)
-            }
+            getUserUseCase.getUser(login)
+                .onStart { user.value = Result.Loading() }
+                .catch { user.value = Result.Failure(it) }
+                .collect { user.value = Result.Success(it) }
         }
     }
 
     fun downloadGistContent(id: String) {
         viewModelScope.launch {
-            gist.value = Result.Loading()
-            try {
-                gist.value = Result.Success(getGistDetailsUseCase.getGist(id))
-            } catch (e: Exception) {
-                gist.value = Result.Failure(e)
-            }
+            getGistDetailsUseCase.getGist(id)
+                .onStart { gist.value = Result.Loading() }
+                .catch { gist.value = Result.Failure(it) }
+                .collect { gist.value = Result.Success(it) }
         }
     }
 

@@ -6,6 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.miquido.gistsmvp.models.local.GistEntryModel
 import com.miquido.gistsmvp.models.local.Result
 import com.miquido.gistsmvp.usecase.GetGistsUseCase
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
 class ListViewModel(
@@ -16,12 +19,10 @@ class ListViewModel(
 
     fun downloadGists() {
         viewModelScope.launch {
-            gists.value = Result.Loading()
-            try {
-                gists.value = Result.Success(getGistsUseCase.getGists())
-            } catch (e: Exception) {
-                gists.value = Result.Failure(e)
-            }
+            getGistsUseCase.getGists()
+                .onStart { gists.value = Result.Loading() }
+                .catch { gists.value = Result.Failure(it) }
+                .collect { gists.value = Result.Success(it) }
         }
     }
 }

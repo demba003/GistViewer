@@ -1,4 +1,4 @@
-### Gist Viewer
+### Gist Viewer [![Build Status](https://travis-ci.org/demba003/GistViewer.svg?branch=mvvm-coroutines-flow)](https://travis-ci.org/demba003/GistViewer)
 Display a list of lastly added [Gists](https://gist.github.com/discover) and open selected one to read it
 
 It's just a sample app to demonstrate usage of MVVM pattern on Android platform using Kotlin language.
@@ -10,6 +10,6 @@ Additionally following libraries were used:
 - [Glide](https://github.com/bumptech/glide)
 - [Mockito-kotlin](https://github.com/nhaarman/mockito-kotlin)
 
-This version uses Kotlin coroutines for async operations instead of RxJava
+This version uses Kotlin Coroutines Flow for async operations instead of RxJava
 
 You can also see MVP version of this app [here](https://github.com/demba003/GistViewer)

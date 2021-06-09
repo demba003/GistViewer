@@ -3,11 +3,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.miquido.gistsmvp"
         minSdkVersion 22
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -36,13 +36,10 @@ ext {
     recyclerViewVersion = "1.1.0"
     lifecycleVersion = "2.2.0"
 
-    rxJavaVersion = "2.2.12"
-    rxAndroidVersion = "2.1.1"
-    rxKotlin = "2.4.0"
+    retrofitVersion = "2.9.0"
+    gsonRetrofitConverter = "2.9.0"
 
-    retrofitVersion = "2.8.2"
-    rxRetrofitAdapter = "2.6.1"
-    gsonRetrofitConverter = "2.8.2"
+    coroutinesVersion = "1.4.3"
 
     glideVersion = "4.11.0"
     koinVersion = "2.1.6"
@@ -50,11 +47,13 @@ ext {
     junitVersion = "4.12"
     mockitoInlineVersion = "3.3.3"
     mockitoKotlinVersion = "2.2.0"
+    archTestingVersion = "2.1.0"
 }
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
 
     // Android X
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
@@ -67,7 +66,6 @@ dependencies {
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$rxRetrofitAdapter"
     implementation "com.squareup.retrofit2:converter-gson:$gsonRetrofitConverter"
 
     // Glide
@@ -81,4 +79,7 @@ dependencies {
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.mockito:mockito-inline:$mockitoInlineVersion"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+    testImplementation "androidx.arch.core:core-testing:$archTestingVersion"
+
 }
